@@ -26,39 +26,54 @@ import datetime
 #         else:
 #             raise TypeError('Parameter is not Post')
 
+
+def set_timestamp(f):
+    def wrapper(self, *args, **kwargs):
+        result = f(self, *args, **kwargs)
+        self.timestamp = datetime.datetime.now()
+        return result
+    return wrapper
+
+
 class Post:
     def __init__(self, date, url, body,):
-        self.date = date
-        self.url = url
-        self.body = body
-        self.timemark = datetime.datetime()
+        self.import_dict(
+            {
+                'date': date,
+                'url': url,
+                'body': body,
+            }
+        )
 
+    @set_timestamp
     def update(self, body):
         """Update self.body and set new timestamp"""
         self.body = body
-        self.timemark = datetime.datetime()
 
-    def exp_dict(self):
+    def export_dict(self):
         """Формирует словарь аттрибутов для дальнейшего хранения"""
-        return {'date':self.date,
-                'url':self.url,
-                'body':self.body,
-                'timemark':self.timemark}
+        return {
+            'date': self.date,
+            'url': self.url,
+            'body': self.body,
+            'timestamp': self.timestamp
+        }
+        #return self.__dict__.copy()
 
-    def exp(self, fmt: str):
+    def export_(self, fmt: str):
         """ Возвращает строку в заданном формате
         для начала в JSON"""
-        if fmt == 'JSON': return json.dumps(self.exp_dict())
+        if fmt == 'JSON':
+            return json.dumps(self.export_dict())
         raise ValueError("Unknown export format '%s'" % fmt)
 
-    def imp_dict(self, data):
-        self.date = data['date']
-        self.url = data['url']
-        self.body = data['body']
-        self.timemark = datetime.datetime()
+    @set_timestamp
+    def import_dict(self, data):
+        self.__dict__ = data
 
-    def imp(self, fmt: str, data: str):
+    def import_(self, fmt: str, data: str):
         """ Втяшиваем строку в заданном формате
         для начала в JSON"""
-        if fmt == 'JSON': self.imp_dict(json.loads(data))
-        raise ValueError("Unknown export format '%s'" % fmt)
+        if fmt == 'JSON':
+            self.import_dict(json.loads(data))
+        raise ValueError("Unknown import format '%s'" % fmt)
