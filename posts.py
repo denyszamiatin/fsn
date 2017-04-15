@@ -83,15 +83,4 @@ class Post:
         self._timestamp = datetime.datetime.strptime(data['timestamp'],datetime_format)
 
 if __name__ == '__main__':
-    _today = datetime.date.today()
-    p = Post(_today, "https://", "Bla-bla-bla")
-    print(p)
-    ps = p.export_dict()
-    print(ps)
-    p.import_dict(ps)
-    print(p)
-
-    ps = p.export_dict()
-    print(ps)
-    p.import_dict(ps)
-    print(p)
+    pass
