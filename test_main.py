@@ -3,7 +3,7 @@ import unittest
 # import unittest.mock
 
 from expimp import ExpImp, ExpImpFile
-from posts import Post, datetime_format
+from posts import Post, DATETIME_FORMAT
 
 
 def print_name(f):
@@ -18,7 +18,7 @@ class TestExpImp(unittest.TestCase):
     def setUp(self):
         self._today = datetime.datetime.today()
         self.p = Post(self._today, "https://", "Bla-bla-bla")
-        print("\n<--- TestExpImp: %s" % self._today.strftime(datetime_format))
+        print("\n<--- TestExpImp: %s" % self._today.strftime(DATETIME_FORMAT))
 
     @print_name
     def testReloadPost(self):
@@ -44,7 +44,7 @@ class TestExpImpFile(unittest.TestCase):
     def setUp(self):
         self._today = datetime.datetime.today()
         self.p = Post(self._today, "https://", "Bla-bla-bla")
-        print("\n<--- TestExpImpFile: %s" % self._today.strftime(datetime_format))
+        print("\n<--- TestExpImpFile: %s" % self._today.strftime(DATETIME_FORMAT))
 
     @print_name
     def testReloadPost(self):

@@ -1,29 +1,25 @@
 import tweepy
 
-consumer_key = "3v7DfArio0rwzLTchxEZO39gY"
-consumer_secret = "zKAEOJRMfIxBUAeNyeMnZIKUJsaZWlCxx2EdL83MgPDoBdzwn5"
-access_key = "200177108-ACIaVIUYRnKKFTsNrzKFbslluZwpyXOUUr59DpS3"
-access_secret = "CaeVF0kVRTYJa3c8N2Fsh2cdMTpPx0PoxqVkkRVbJYcZu"
+CONSUMER_KEY = "3v7DfArio0rwzLTchxEZO39gY"
+CONSUMER_SECRET = "zKAEOJRMfIxBUAeNyeMnZIKUJsaZWlCxx2EdL83MgPDoBdzwn5"
+ACCESS_KEY = "200177108-ACIaVIUYRnKKFTsNrzKFbslluZwpyXOUUr59DpS3"
+ACCESS_SECRET = "CaeVF0kVRTYJa3c8N2Fsh2cdMTpPx0PoxqVkkRVbJYcZu"
 
 
 def get_all_tweets(screen_name):
 
-    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-    auth.set_access_token(access_key, access_secret)
+    auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
+    auth.set_access_token(ACCESS_KEY, ACCESS_SECRET)
     api = tweepy.API(auth)
 
     alltweets = []
 
     #if add include_rts=False or exclude_replies=True, retweets will not be collected
-    new_tweets = api.user_timeline(screen_name=screen_name, exclude_replies=True)
-    alltweets.extend(new_tweets)
 
-    oldest = alltweets[-1].id - 1
-
-    while len(new_tweets) > 0:
-        print("getting tweets before %s" % (oldest))
-
+    while True:
         new_tweets = api.user_timeline(screen_name=screen_name, count=200, max_id=oldest, exclude_replies=True)
+        if not new_tweets:
+            break
         alltweets.extend(new_tweets)
         oldest = alltweets[-1].id - 1
 

@@ -1,4 +1,3 @@
-import json
 import datetime
 
 # class Account:
@@ -27,7 +26,8 @@ import datetime
 #             raise TypeError('Parameter is not Post')
 
 # единый стандарт для преобразования datetime для совместимости с serialise (например JSON)
-datetime_format = "%Y%m%d:%H:%M:%S%f"
+DATETIME_FORMAT = "%Y%m%d:%H:%M:%S%f"
+
 
 def set_timestamp(f):
     """ Декоратор для автоматического обновления аттрибута timestamp
@@ -69,18 +69,19 @@ class Post:
     def export_dict(self):
         """Возвращает словарь выборочных! аттрибутов для дальнейшего хранения"""
         data = {
-            'date': self.date.strftime(datetime_format),
+            'date': self.date.strftime(DATETIME_FORMAT),
             'url': self.url,
             'body': self.body,
-            'timestamp': self._timestamp.strftime(datetime_format)
+            'timestamp': self._timestamp.strftime(DATETIME_FORMAT)
         }
         return data
 
     def import_dict(self, data):
-        self.date = datetime.datetime.strptime(data['date'],datetime_format)
+        self.date = datetime.datetime.strptime(data['date'], DATETIME_FORMAT)
         self.url = data['url']
         self.body = data['body']
-        self._timestamp = datetime.datetime.strptime(data['timestamp'],datetime_format)
+        self._timestamp = datetime.datetime.strptime(data['timestamp'],
+                                                     DATETIME_FORMAT)
 
 if __name__ == '__main__':
     pass

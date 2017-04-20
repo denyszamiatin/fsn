@@ -1,25 +1,24 @@
 import facebook
 import csv
+import pprint
 
-app_id='119610841474711'
-app_secret='acd9a657733dd91434a6f94df2f71124'
+APP_ID= '119610841474711'
+APP_SECRET= 'acd9a657733dd91434a6f94df2f71124'
 
 USER_ID = '1546116578732756'
 
-class ReadFBPosts():
 
-    def get_access_token(self):
+class ReadFBPosts:
+
+    def __init__(self):
         """
         get access token tot FB page by app_id and app_secret
         app_id and app_secret from https://developers.facebook.com
 
         """
-        return facebook.GraphAPI.get_app_access_token(facebook.GraphAPI, app_id, app_secret, offline=True)
-
-
-
-    def connect_to_fb(self):
-        return facebook.GraphAPI(access_token=self.get_access_token(), version=2.7)
+        access_token = facebook.GraphAPI.get_app_access_token(
+            facebook.GraphAPI, APP_ID, APP_SECRET, offline=True)
+        self.conn = facebook.GraphAPI(access_token=access_token, version=2.7)
 
 
     # def add_fb_post():
@@ -28,28 +27,29 @@ class ReadFBPosts():
 
     def read_all_posts(self):
         """read user feed by user id"""
-        return ReadFBPosts().connect_to_fb().get_connections(id=USER_ID, connection_name='feed')
+        return self.conn.get_connections(id=USER_ID, connection_name='feed')
 
 
-    def save_all_posts_to_txt(self):
-        posts = ReadFBPosts().read_all_posts()
-        list = posts['data']
-        with open('posts.txt', 'wt') as text_file:
-            for line in list:
-                text_file.write(str(line) + '\n')
+def save_all_posts_to_txt():
+    posts = ReadFBPosts().read_all_posts()
+    list_ = posts['data']
+    with open('posts.txt', 'wt') as text_file:
+        for line in list_:
+            text_file.write(str(line) + '\n')
 
 
-    def save_all_posts_to_csv(self):
-        posts = ReadFBPosts().read_all_posts()
-        list = posts['data']
-        keys = ['story', 'message', 'created_time', 'id']
-        with open('posts.csv', 'wt') as text_file:
-            dict_writer = csv.DictWriter(text_file, keys, delimiter=' ', quoting=csv.QUOTE_ALL)
-            dict_writer.writeheader()
-            dict_writer.writerows(list)
+def save_all_posts_to_csv():
+    posts = ReadFBPosts().read_all_posts()
+    list_ = posts['data']
+    keys = ['story', 'message', 'created_time', 'id']
+    with open('posts.csv', 'wt') as text_file:
+        dict_writer = csv.DictWriter(text_file, keys, delimiter=' ', quoting=csv.QUOTE_ALL)
+        dict_writer.writeheader()
+        dict_writer.writerows(list_)
 
 
-print(ReadFBPosts.read_all_posts(ReadFBPosts))
+if __name__ == '__main__':
+    pprint.pprint(ReadFBPosts().read_all_posts())
 
-ReadFBPosts.save_all_posts_to_txt(ReadFBPosts)
-ReadFBPosts.save_all_posts_to_csv(ReadFBPosts)
+#save_all_posts_to_txt()
+#save_all_posts_to_csv()
