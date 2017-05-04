@@ -92,6 +92,7 @@ def tag_delete(post_):
     # return re.sub(r'<([A-Za-z1-9!/ ])*>', ' ', post_).strip()
 
 
+
 if __name__ == '__main__':
     post = '''
     <!DOCTYPE html>
