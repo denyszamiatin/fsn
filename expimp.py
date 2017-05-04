@@ -25,7 +25,7 @@ class ExpImpFile:
         self._fname = fname
 
     def import_(self, cls):
-        with open(self._fname,'rt') as fdesc:
+        with open(self._fname, 'rt') as fdesc:
             self._worker.import_(cls, fdesc.read())
 
     def export_(self, cls):
