@@ -1,5 +1,4 @@
 import datetime
-# import re
 from bs4 import BeautifulSoup
 
 
@@ -88,25 +87,8 @@ class Post:
 
 
 def tag_delete(post_):
-    return BeautifulSoup(post_, 'lxml').get_text().strip()
-    # return re.sub(r'<([A-Za-z1-9!/ ])*>', ' ', post_).strip()
-
+    return ' '.join(BeautifulSoup(post_, 'lxml').get_text().split())
 
 
 if __name__ == '__main__':
-    post = '''
-    <!DOCTYPE html>
-        <html>
-            <body>  
-                <h1>Header</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-<b>Praesent rutrum tortor ac turpis venenatis, sit amet ullamcorper leo vestibulum.</b>
-<i>Quisque lacinia, ex nec convallis congue, turpis sapien facilisis magna, non ultricies purus est id purus. </i>
-Nunc ullamcorper magna ac libero porta, sit amet malesuada sapien posuere. In urna est, bibendum luctus metus non, dictum aliquet sem. 
-Nulla euismod a elit a dapibus. Nulla varius quam purus, ac bibendum leo suscipit non. Fusce euismod odio non quam consequat suscipit. 
-Fusce imperdiet diam ut molestie placerat. Sed ornare justo quam, sed convallis est interdum sit amet. </p>           
-            </body>
-        </html>
-    '''
-
-    print(tag_delete(post))
+    pass
