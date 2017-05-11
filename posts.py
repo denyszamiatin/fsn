@@ -1,5 +1,6 @@
 import datetime
 from bs4 import BeautifulSoup
+from langdetect import detect
 
 
 # class Account:
@@ -90,5 +91,33 @@ def tag_delete(post_):
     return ' '.join(BeautifulSoup(post_, 'lxml').get_text().split())
 
 
+def detect_language(post_):
+    return detect(post_)
+
 if __name__ == '__main__':
-    pass
+    post1 = '''In the beautiful city of Verona, where our story takes place, 
+    a long-standing hatred between two families erupts into new violence, 
+    and citizens stain their hands with the blood of their fellow citizens. 
+    Two unlucky children of these enemy families become lovers and commit suicide. 
+    Their unfortunate deaths put an end to their parents' feud. For the next two hours, 
+    we will watch the story of their doomed love and their parents' anger, which 
+    nothing but the children’s deaths could stop. If you listen to us patiently, 
+    we’ll make up for everything we’ve left out in this prologue onstage.'''
+    post2 = '''Zwei Hдuser waren—gleich an Wьrdigkeit—
+    Hier in Verona, wo die Handlung steckt,
+    Durch alten Groll zu neuem Kampf bereit,
+    Wo Bьrgerblut die Bьrgerhand befleckt.
+    Aus dieser Feinde unheilvollem Schoя
+    Das Leben zweier Liebender entsprang,
+    Die durch ihr unglьckselges Ende bloя
+    Im Tod begraben elterlichen Zank.'''
+    post3 = '''Однаково шляхетні дві сім'ї
+    В Вероні пишній, де проходить дія,
+    Збували в ворожнечі дні свої.
+    Аж враз кривава скоїлась подія.
+    Коханців двоє щирих,запальних
+    Ворожі ті утроби породили;
+    Нещастя сталося у сім'ях тих,-
+    Вони одвічні звади припинили.'''
+
+    print(detect_language(post1), detect_language(post2), detect_language(post3))
