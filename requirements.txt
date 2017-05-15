@@ -1,3 +1,4 @@
+chardet
 bs4
 langdetect
 facebook-sdk == 2.0.0

@@ -1,6 +1,7 @@
 import datetime
 from bs4 import BeautifulSoup
 from langdetect import detect
+import chardet
 
 
 # class Account:
@@ -86,6 +87,9 @@ class Post:
         self._timestamp = datetime.datetime.strptime(data['timestamp'],
                                                      DATETIME_FORMAT)
 
+    def detect_encode(self):
+        return chardet.detect(self.body.encode())
+
 
 def tag_delete(post_):
     return ' '.join(BeautifulSoup(post_, 'lxml').get_text().split())
@@ -121,3 +125,8 @@ if __name__ == '__main__':
     Вони одвічні звади припинили.'''
 
     print(detect_language(post1), detect_language(post2), detect_language(post3))
+
+    post_dict = [post1, post2, post3]
+    for i in post_dict:
+        post_example = Post('Y20170515:19:15:00', 'http://mail.ru', i)
+        print(post_example.detect_encode())
